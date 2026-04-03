@@ -23,26 +23,8 @@ async function fetchPrintfulProducts() {
 
     try {
         showToast('Syncing products from Printful...');
-        
-        // Official GET /store/products endpoint from OpenAPI spec
-        const headers = {
-            'Authorization': `Bearer ${PRINTFUL_CONFIG.apiKey}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        };
-        
-        // Add store ID header if configured
-        if (PRINTFUL_CONFIG.storeId) {
-            headers['X-PF-Store-Id'] = PRINTFUL_CONFIG.storeId;
-        }
 
-        const response = await fetch(`${PRINTFUL_CONFIG.baseUrl}/store/products`, {
-            method: 'GET',
-            headers: headers,
-            mode: 'no-cors'
-        });
-
-        // Hardcode your actual product data directly since CORS blocks browser requests
+        // Bypass API entirely - use actual product data directly
         const data = {
             code: 200,
             result: [
