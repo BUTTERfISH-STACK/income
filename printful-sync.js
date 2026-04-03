@@ -4,7 +4,7 @@
 
 // Printful API Configuration - Official OpenAPI Spec Compliant
 const PRINTFUL_CONFIG = {
-    apiKey: 'YOUR_PRINTFUL_API_KEY', // Add your Printful API key here
+    apiKey: 'ZtVtYKQTbD5USYJJhKSzMhdHD4A6mqek9jcDIRE8', // Add your Printful API key here
     baseUrl: 'https://api.printful.com',
     storeId: null,
     version: 'v2',
