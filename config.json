@@ -1,0 +1,19 @@
+{
+  "store": {
+    "name": "BEEFY",
+    "currency": "ZAR",
+    "domain": "beefy.co.za"
+  },
+  "viralstyle": {
+    "apiKey": "YOUR_VIRALSTYLE_API_KEY",
+    "storeId": "YOUR_VIRALSTYLE_STORE_ID"
+  },
+  "payment": {
+    "provider": "payfast",
+    "merchantId": "YOUR_PAYFAST_MERCHANT_ID",
+    "merchantKey": "YOUR_PAYFAST_MERCHANT_KEY",
+    "returnUrl": "https://beefy.co.za/order-success",
+    "cancelUrl": "https://beefy.co.za/order-cancel",
+    "notifyUrl": "https://beefy.co.za/api/payment/notify"
+  }
+}

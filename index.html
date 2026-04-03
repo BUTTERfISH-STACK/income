@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEEFY | Dundee's Premier Gym Wear</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://sdks.shopifycdn.com/buy-button/2.4.0/buybutton.js"></script>
+    <script>
+        const BEEFY_CONFIG = {
+            shopifyDomain: 'beefy-gym-wear.myshopify.com',
+            shopifyAccessToken: 'YOUR_SHOPIFY_ACCESS_TOKEN'
+        };
+        const BEEFY_PRODUCTS = {
+            'classic-tee':     { id: 'GID_HERE', price: '450' },
+            'beast-tank':      { id: 'GID_HERE', price: '380' },
+            'power-shorts':    { id: 'GID_HERE', price: '520' },
+            'beefy-hoodie':    { id: 'GID_HERE', price: '750' },
+            'track-pants':     { id: 'GID_HERE', price: '680' },
+            'beefy-cap':       { id: 'GID_HERE', price: '280' },
+            'sports-bra':      { id: 'GID_HERE', price: '420' },
+            'flex-leggings':   { id: 'GID_HERE', price: '580' },
+            'lifting-gloves':  { id: 'GID_HERE', price: '320' },
+            'beefy-stringer':  { id: 'GID_HERE', price: '350' },
+            'beefy-shaker':    { id: 'GID_HERE', price: '180' },
+            'gym-bag':         { id: 'GID_HERE', price: '890' }
+        };
+    </script>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-logo">BEEFY</div>
+            <div class="loader-bar"><div class="loader-progress"></div></div>
+        </div>
+    </div>
+    <style>
+        .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0a0a0a; display: flex; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.5s ease, visibility 0.5s ease; }
+        .loader.hidden { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+        .loader-content { text-align: center; }
+        .loader-logo { font-family: 'Oswald', sans-serif; font-size: 4rem; font-weight: 700; color: #fff; letter-spacing: 0.2em; margin-bottom: 24px; }
+        .loader-bar { width: 200px; height: 3px; background: #333; border-radius: 3px; overflow: hidden; }
+        .loader-progress { height: 100%; background: #c8102e; animation: loadProgress 1.5s ease-out forwards; }
+        @keyframes loadProgress { 0% { width: 0; } 100% { width: 100%; } }
+    </style>
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1200);
+        });
+        setTimeout(function() {
+            var l = document.getElementById('loader');
+            if (l) l.classList.add('hidden');
+        }, 4000);
+    </script>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-text">BEEFY</span>
+                <span class="logo-tagline">GYM WEAR</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#products" class="nav-link">Shop</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="cart-btn" id="cartBtn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg" style="background-image: url('images/hero-bg.jpg');">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">DUNDEE'S OWN</div>
+            <h1 class="hero-title">
+                <span class="hero-line">BUILT</span>
+                <span class="hero-line accent">DIFFERENT</span>
+            </h1>
+            <p class="hero-subtitle">From the heart of KZN to the world stage. BEEFY is the next biggest gym brand &mdash; forged in Dundee, worn by champions.</p>
+            <div class="hero-cta">
+                <a href="#products" class="btn btn-primary">SHOP NOW</a>
+                <a href="#about" class="btn btn-outline">OUR STORY</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Local Athletes</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">SA Made</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">KZN</span>
+                    <span class="stat-label">Born & Bred</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee">
+        <div class="marquee-track">
+            <span>BEEFY &bull; DUNDEE KZN &bull; GYM WEAR &bull; STRENGTH &bull; POWER &bull; BEEFY &bull; DUNDEE KZN &bull; GYM WEAR &bull; STRENGTH &bull; POWER &bull; BEEFY &bull; DUNDEE KZN &bull; GYM WEAR &bull; STRENGTH &bull; POWER &bull; BEEFY &bull; DUNDEE KZN &bull; GYM WEAR &bull; STRENGTH &bull; POWER &bull;</span>
+        </div>
+    </div>
+
+    <!-- FOMO Urgency Banner -->
+    <div class="urgency-banner">
+        <div class="urgency-content">
+            <i class="fas fa-fire-flame-curved"></i>
+            <span class="urgency-text">FLASH SALE: <strong>20% OFF</strong> ALL ITEMS</span>
+            <div class="countdown" id="countdown">
+                <div class="countdown-unit"><span class="countdown-num" id="hours">05</span><span class="countdown-label">HRS</span></div>
+                <div class="countdown-sep">:</div>
+                <div class="countdown-unit"><span class="countdown-num" id="minutes">42</span><span class="countdown-label">MIN</span></div>
+                <div class="countdown-sep">:</div>
+                <div class="countdown-unit"><span class="countdown-num" id="seconds">18</span><span class="countdown-label">SEC</span></div>
+            </div>
+            <span class="urgency-sub">Use code: <strong class="code-highlight">BEEFY20</strong></span>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">THE COLLECTION</span>
+                <h2 class="section-title">GEAR UP</h2>
+                <p class="section-desc">Premium gym wear engineered for performance. Made for the hardworking people of Dundee &mdash; farmers, professionals, athletes.</p>
+            </div>
+
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="tops">Tops</button>
+                <button class="filter-tab" data-filter="bottoms">Bottoms</button>
+                <button class="filter-tab" data-filter="accessories">Accessories</button>
+                <button class="filter-tab" data-filter="women">Women</button>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Product 1 -->
+                <div class="product-card" data-category="tops">
+                    <div class="product-image">
+                        <img src="images/product-tee.jpg" alt="BEEFY Classic Tee" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="https://beefy.co.za/shop/classic-tee" target="_blank" rel="noopener" class="quick-view-btn">Shop Now</a>
+                        </div>
+                        <span class="product-badge">NEW</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">BEEFY Classic Tee</h3>
+                        <p class="product-desc">Heavyweight cotton, bold BEEFY print</p>
+                        <div class="stock-indicator low">
+                            <i class="fas fa-fire"></i>
+                            <span>Only 3 left in stock!</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="product-price">R450</span>
+                            <a href="https://beefy.co.za/shop/classic-tee" target="_blank" rel="noopener" class="btn-buy">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card" data-category="tops">
+                    <div class="product-image">
+                        <img src="images/product-tank.jpg" alt="Dundee Beast Tank" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="https://beefy.co.za/shop/beast-tank" target="_blank" rel="noopener" class="quick-view-btn">Shop Now</a>
+                        </div>
+                        <span class="product-badge hot">HOT</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Dundee Beast Tank</h3>
+                        <p class="product-desc">Breathable mesh tank, built for intensity</p>
+                        <div class="stock-indicator low">
+                            <i class="fas fa-fire"></i>
+                            <span>Only 5 left in stock!</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="product-price">R380</span>
+                            <a href="https://beefy.co.za/shop/beast-tank" target="_blank" rel="noopener" class="btn-buy">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card" data-category="bottoms">
+                    <div class="product-image">
+                        <img src="images/product-shorts.jpg" alt="Power Shorts" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="https://beefy.co.za/shop/power-shorts" target="_blank" rel="noopener" class="quick-view-btn">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Power Shorts</h3>
+                        <p class="product-desc">4-way stretch, squat-proof material</p>
+                        <div class="product-footer">
+                            <span class="product-price">R520</span>
+                            <a href="https://beefy.co.za/shop/power-shorts" target="_blank" rel="noopener" class="btn-buy">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card" data-category="tops">
+                    <div class="product-image">
+                        <img src="images/product-hoodie.jpg" alt="BEEFY Hoodie" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="https://beefy.co.za/shop/beefy-hoodie" target="_blank" rel="noopener" class="quick-view-btn">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">BEEFY Hoodie</h3>
+                        <p class="product-desc">Premium fleece, embroidered logo</p>
+                        <div class="stock-indicator low">
+                            <i class="fas fa-fire"></i>
+                            <span>Only 2 left in stock!</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="product-price">R750</span>
+                            <a href="https://beefy.co.za/shop/beefy-hoodie" target="_blank" rel="noopener" class="btn-buy">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card" data-category="bottoms">
+                    <div class="product-image">
+                        <img src="images/product-tracks.jpg" alt="Track Pants" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="https://beefy.co.za/shop/track-pants" target="_blank" rel="noopener" class="quick-view-btn">Shop Now</a>
+                        </div>
+                        <span class="product-badge">NEW</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Track Pants</h3>
+                        <p class="product-desc">Tapered fit, zip pockets, BEEFY branding</p>
+                        <div class="product-footer">
+                            <span class="product-price">R680</span>
+                            <a href="https://beefy.co.za/shop/track-pants" target="_blank" rel="noopener" class="btn-buy">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card" data-category="accessories">
+                    <div class="product-image">
+                        <img src="images/product-cap.jpg" alt="BEEFY Cap" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="https://beefy.co.za/shop/beefy-cap" target="_blank" rel="noopener" class="quick-view-btn">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">BEEFY Cap</h3>
+                        <p class="product-desc">Snapback, flat brim, embroidered front</p>
+                        <div class="product-footer">
+                            <span class="product-price">R280</span>
+                            <a href="https://beefy.co.za/shop/beefy-cap" target="_blank" rel="noopener" class="btn-buy">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 7 -->
+                <div class="product-card" data-category="women">
+                    <div class="product-image">
+                        <img src="images/product-sportsbra.jpg" alt="BEEFY Sports Bra" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="https://beefy.co.za/shop/sports-bra" target="_blank" rel="noopener" class="quick-view-btn">Shop Now</a>
+                        </div>
+                        <span class="product-badge hot">HOT</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">BEEFY Sports Bra</h3>
+                        <p class="product-desc">High support, moisture-wicking fabric</p>
+                        <div class="stock-indicator low">
+                            <i class="fas fa-fire"></i>
+                            <span>Only 4 left in stock!</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="product-price">R420</span>
+                            <a href="https://beefy.co.za/shop/sports-bra" target="_blank" rel="noopener" class="btn-buy">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 8 -->
+                <div class="product-card" data-category="women">
+                    <div class="product-image">
+                        <img src="images/product-leggings.jpg" alt="Flex Leggings" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="https://beefy.co.za/shop/flex-leggings" target="_blank" rel="noopener" class="quick-view-btn">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Flex Leggings</h3>
+                        <p class="product-desc">High-waist, sculpting fit, squat-proof</p>
+                        <div class="product-footer">
+                            <span class="product-price">R580</span>
+                            <a href="https://beefy.co.za/shop/flex-leggings" target="_blank" rel="noopener" class="btn-buy">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 9 -->
+                <div class="product-card" data-category="accessories">
+                    <div class="product-image">
+                        <img src="images/product-gloves.jpg" alt="Lifting Gloves" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="https://beefy.co.za/shop/lifting-gloves" target="_blank" rel="noopener" class="quick-view-btn">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Lifting Gloves</h3>
+                        <p class="product-desc">Leather palm, wrist support, BEEFY logo</p>
+                        <div class="product-footer">
+                            <span class="product-price">R320</span>
+                            <a href="https://beefy.co.za/shop/lifting-gloves" target="_blank" rel="noopener" class="btn-buy">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 10 -->
+                <div class="product-card" data-category="tops">
+                    <div class="product-image">
+                        <img src="images/product-stringer.jpg" alt="BEEFY Stringer" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="https://beefy.co.za/shop/beefy-stringer" target="_blank" rel="noopener" class="quick-view-btn">Shop Now</a>
+                        </div>
+                        <span class="product-badge">NEW</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">BEEFY Stringer</h3>
+                        <p class="product-desc">Competition cut, show your gains</p>
+                        <div class="product-footer">
+                            <span class="product-price">R350</span>
+                            <a href="https://beefy.co.za/shop/beefy-stringer" target="_blank" rel="noopener" class="btn-buy">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 11 -->
+                <div class="product-card" data-category="accessories">
+                    <div class="product-image">
+                        <img src="images/product-shaker.jpg" alt="BEEFY Shaker" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="https://beefy.co.za/shop/beefy-shaker" target="_blank" rel="noopener" class="quick-view-btn">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">BEEFY Shaker</h3>
+                        <p class="product-desc">750ml, BPA-free, branded bottle</p>
+                        <div class="product-footer">
+                            <span class="product-price">R180</span>
+                            <a href="https://beefy.co.za/shop/beefy-shaker" target="_blank" rel="noopener" class="btn-buy">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 12 -->
+                <div class="product-card" data-category="accessories">
+                    <div class="product-image">
+                        <img src="images/product-gymbag.jpg" alt="Gym Bag" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="https://beefy.co.za/shop/gym-bag" target="_blank" rel="noopener" class="quick-view-btn">Shop Now</a>
+                        </div>
+                        <span class="product-badge hot">HOT</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Gym Bag</h3>
+                        <p class="product-desc">Heavy-duty canvas, shoe compartment</p>
+                        <div class="stock-indicator low">
+                            <i class="fas fa-fire"></i>
+                            <span>Only 1 left in stock!</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="product-price">R890</span>
+                            <a href="https://beefy.co.za/shop/gym-bag" target="_blank" rel="noopener" class="btn-buy">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-visual">
+                    <div class="about-image-main">
+                        <img src="images/about-main.jpg" alt="BEEFY Gym Dundee">
+                    </div>
+                    <div class="about-image-secondary">
+                        <img src="images/about-secondary.jpg" alt="BEEFY KZN Fitness">
+                    </div>
+                    <div class="about-badge-float">
+                        <span class="badge-year">2024</span>
+                        <span class="badge-text">FOUNDED</span>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <span class="section-tag">OUR STORY</span>
+                    <h2 class="section-title">BORN IN<br>DUNDEE</h2>
+                    <p class="about-text">
+                        BEEFY wasn't born in some fancy Cape Town studio or Joburg boardroom. It was forged right here in Dundee, KwaZulu-Natal &mdash; where hard work isn't a trend, it's a way of life.
+                    </p>
+                    <p class="about-text">
+                        From the sugar cane fields to the gym floor, we know what it means to push limits. Our gear is built for the boere who wake up at 4am, the professionals grinding 9-to-5, and the athletes who never quit.
+                    </p>
+                    <p class="about-text">
+                        This is more than gym wear. This is a movement. BEEFY is the world's next biggest gym brand &mdash; and it started right here in your backyard.
+                    </p>
+                    <div class="about-values">
+                        <div class="value">
+                            <i class="fas fa-fist-raised"></i>
+                            <h4>STRENGTH</h4>
+                            <p>Built to last through every rep, every set, every session</p>
+                        </div>
+                        <div class="value">
+                            <i class="fas fa-heart"></i>
+                            <h4>COMMUNITY</h4>
+                            <p>Proudly representing Dundee and the greater KZN region</p>
+                        </div>
+                        <div class="value">
+                            <i class="fas fa-medal"></i>
+                            <h4>QUALITY</h4>
+                            <p>Premium materials, South African craftsmanship</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Strip -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature">
+                    <i class="fas fa-truck-fast"></i>
+                    <h4>FREE DELIVERY</h4>
+                    <p>Within Dundee & surrounding areas</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shield-halved"></i>
+                    <h4>QUALITY GUARANTEE</h4>
+                    <p>30-day money back promise</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-recycle"></i>
+                    <h4>SA MADE</h4>
+                    <p>Proudly manufactured in SA</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-headset"></i>
+                    <h4>LOCAL SUPPORT</h4>
+                    <p>Real people, real support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">THE LIFESTYLE</span>
+                <h2 class="section-title">BEEFY IN ACTION</h2>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item large">
+                    <img src="images/gallery-1.jpg" alt="BEEFY Training" loading="lazy">
+                    <div class="gallery-overlay"><span>TRAIN HARD</span></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery-2.jpg" alt="BEEFY Lifting" loading="lazy">
+                    <div class="gallery-overlay"><span>LIFT HEAVY</span></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery-3.jpg" alt="BEEFY Community" loading="lazy">
+                    <div class="gallery-overlay"><span>COMMUNITY</span></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery-4.jpg" alt="BEEFY Competition" loading="lazy">
+                    <div class="gallery-overlay"><span>COMPETE</span></div>
+                </div>
+                <div class="gallery-item tall">
+                    <img src="images/gallery-5.jpg" alt="Be BEEFY" loading="lazy">
+                    <div class="gallery-overlay"><span>BE BEEFY</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">THE CREW</span>
+                <h2 class="section-title">WHAT THEY SAY</h2>
+            </div>
+            <div class="testimonials-slider" id="testimonialsSlider">
+                <div class="testimonial-card active">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Best gym gear I've ever owned. The quality is insane and it's from right here in Dundee. BEEFY is the real deal. No cap."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><img src="images/avatar-1.jpg" alt="Thabo M."></div>
+                        <div class="author-info">
+                            <strong>Thabo M.</strong>
+                            <span>Dundee Local</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Ek dra niks anders nie. BEEFY is die regte ding &mdash; sterk, mooi, en van hierdie plek af. Dis ons tyd nou!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><img src="images/avatar-2.jpg" alt="Pieter v.d. Merwe"></div>
+                        <div class="author-info">
+                            <strong>Pieter v.d. Merwe</strong>
+                            <span>Local Farmer & Athlete</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"As a professional working in Dundee, BEEFY gives me that confidence boost. From the office to the gym &mdash; one brand, one identity."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><img src="images/avatar-3.jpg" alt="Nokuthula D."></div>
+                        <div class="author-info">
+                            <strong>Nokuthula D.</strong>
+                            <span>Professional & Gym-goer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-dots" id="testimonialDots">
+                <button class="dot active" data-index="0"></button>
+                <button class="dot" data-index="1"></button>
+                <button class="dot" data-index="2"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <div class="newsletter-text">
+                    <span class="section-tag">JOIN THE MOVEMENT</span>
+                    <h2 class="section-title">GET BEEFY UPDATES</h2>
+                    <p>New drops, exclusive deals, and Dundee gym culture &mdash; straight to your inbox.</p>
+                </div>
+                <form class="newsletter-form" id="newsletterForm">
+                    <div class="input-group">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-primary">SUBSCRIBE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <span class="section-tag">GET IN TOUCH</span>
+                    <h2 class="section-title">FIND US</h2>
+                    <p class="contact-text">Based in the heart of Dundee, KZN. Pop in, say howzit, and grab your gear.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-location-dot"></i>
+                            <div>
+                                <strong>Address</strong>
+                                <p>12 Church Street, Dundee<br>3000, KwaZulu-Natal</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>Phone</strong>
+                                <p>034 000 0000</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <strong>Email</strong>
+                                <p>info@beefy.co.za</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Hours</strong>
+                                <p>Mon - Fri: 8am - 6pm<br>Sat: 9am - 3pm</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" placeholder="Your Phone">
+                        </div>
+                        <div class="form-group">
+                            <select required>
+                                <option value="" disabled selected>Select Subject</option>
+                                <option>General Enquiry</option>
+                                <option>Order Status</option>
+                                <option>Wholesale</option>
+                                <option>Sponsorship</option>
+                                <option>Returns</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <textarea placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">SEND MESSAGE</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo-text">BEEFY</span>
+                        <span class="logo-tagline">GYM WEAR</span>
+                    </div>
+                    <p>The world's next biggest gym brand. Born in Dundee, built for champions.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>QUICK LINKS</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#products">Shop</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>SUPPORT</h4>
+                    <ul>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>LEGAL</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 BEEFY. All rights reserved. Proudly Dundee, KZN.</p>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                    <span>EFT</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>YOUR CART</h3>
+            <button class="cart-close" id="cartClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <i class="fas fa-shopping-bag"></i>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display: none;">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">R0</span>
+            </div>
+            <button class="btn btn-primary btn-full" id="checkoutBtn">CHECKOUT VIA WHATSAPP</button>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+
+
+    <!-- Shopify Buy Button Cart Container -->
+    <div id="shopify-cart-container"></div>
+
+    <!-- Social Proof Popup -->
+    <div class="social-proof" id="socialProof">
+        <div class="social-proof-content">
+            <div class="social-proof-icon"><i class="fas fa-check-circle"></i></div>
+            <div class="social-proof-text">
+                <strong id="socialProofName">Someone</strong>
+                <span id="socialProofAction">just purchased</span>
+                <strong id="socialProofProduct">BEEFY Classic Tee</strong>
+                <span id="socialProofLocation" class="social-proof-location"><i class="fas fa-map-marker-alt"></i> Dundee</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Pulse -->
+    <div class="live-pulse" id="livePulse">
+        <div class="pulse-dot"></div>
+        <span><strong id="liveViewers">12,847</strong> people viewing right now</span>
+        <span class="pulse-divider">|</span>
+        <span><strong id="livePurchases">3,291</strong> purchased today</span>
+        <span class="pulse-trend" id="pulseTrend"><i class="fas fa-arrow-trend-up"></i> Trending</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
