@@ -36,7 +36,8 @@ async function fetchPrintfulProducts() {
             headers['X-PF-Store-Id'] = PRINTFUL_CONFIG.storeId;
         }
 
-        const response = await fetch(`${PRINTFUL_CONFIG.baseUrl}/store/products`, {
+        // Use CORS proxy for browser requests
+        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`${PRINTFUL_CONFIG.baseUrl}/store/products`)}`, {
             method: 'GET',
             headers: headers
         });
@@ -66,6 +67,13 @@ async function fetchPrintfulProducts() {
     } catch (error) {
         console.error('Printful sync error:', error);
         showToast(`Sync failed: ${error.message}`);
+        
+        // Show error in products grid
+        const productsGrid = document.getElementById('productsGrid');
+        if (productsGrid) {
+            productsGrid.innerHTML = `<p style="color: #ef4444;">Sync failed: ${error.message}</p>`;
+        }
+        
         return [];
     }
 }
@@ -82,7 +90,7 @@ async function fetchPrintfulProductDetails(productId) {
         }
 
         // Official GET /store/products/{id} endpoint from OpenAPI spec
-        const response = await fetch(`${PRINTFUL_CONFIG.baseUrl}/store/products/${productId}`, {
+        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`${PRINTFUL_CONFIG.baseUrl}/store/products/${productId}`)}`, {
             method: 'GET',
             headers: headers
         });
@@ -163,6 +171,12 @@ async function syncPrintfulProductsToStore() {
     // Clear existing products
     const productsGrid = document.getElementById('productsGrid');
     productsGrid.innerHTML = '';
+    
+    // Show loading state if no products yet
+    if (printfulProducts.length === 0) {
+        productsGrid.innerHTML = '<p>No products found in Printful account</p>';
+        return;
+    }
 
     // Add new products from Printful
     storeProducts.forEach((product, index) => {
