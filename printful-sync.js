@@ -36,8 +36,8 @@ async function fetchPrintfulProducts() {
             headers['X-PF-Store-Id'] = PRINTFUL_CONFIG.storeId;
         }
 
-        // Use CORS proxy for browser requests
-        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`${PRINTFUL_CONFIG.baseUrl}/store/products`)}`, {
+        // Printful requires server-side requests - use CORS proxy that supports auth headers
+        const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(`${PRINTFUL_CONFIG.baseUrl}/store/products`)}`, {
             method: 'GET',
             headers: headers
         });
@@ -90,7 +90,7 @@ async function fetchPrintfulProductDetails(productId) {
         }
 
         // Official GET /store/products/{id} endpoint from OpenAPI spec
-        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`${PRINTFUL_CONFIG.baseUrl}/store/products/${productId}`)}`, {
+        const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(`${PRINTFUL_CONFIG.baseUrl}/store/products/${productId}`)}`, {
             method: 'GET',
             headers: headers
         });
