@@ -141,14 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === modal) closeModal();
     });
 
-    modalAddCart.addEventListener('click', () => {
-        if (currentModalProduct) {
-            const price = currentModalProduct.price.replace('R', '');
-            addToCart(currentModalProduct.slug, currentModalProduct.name, price);
-            closeModal();
-        }
-    });
-
     document.querySelectorAll('.size-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
