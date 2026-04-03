@@ -98,7 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalPrice = document.getElementById('modalPrice');
     const modalAddCart = document.getElementById('modalAddCart');
 
-    const productData = {
+    // Product data will be populated by Printful sync or fallback to static
+    let productData = {
         1: { name: 'BEEFY Classic Tee', desc: 'Heavyweight 220gsm cotton tee with bold BEEFY logo print. Pre-shrunk, true to size. Available in black, white, and charcoal.', price: 'R450', slug: 'classic-tee' },
         2: { name: 'Dundee Beast Tank', desc: 'Breathable mesh tank top built for intense workouts. Lightweight, moisture-wicking fabric with raw-cut armholes.', price: 'R380', slug: 'beast-tank' },
         3: { name: 'Power Shorts', desc: '4-way stretch shorts with deep pockets. Squat-proof material, elastic waistband with drawcord. 7" inseam.', price: 'R520', slug: 'power-shorts' },
@@ -111,6 +112,23 @@ document.addEventListener('DOMContentLoaded', () => {
         10: { name: 'BEEFY Stringer', desc: 'Competition-cut stringer tank. Deep armholes, lightweight fabric. Show your gains.', price: 'R350', slug: 'beefy-stringer' },
         11: { name: 'BEEFY Shaker', desc: '750ml BPA-free protein shaker with BEEFY branding. Leak-proof lid, mixing ball included.', price: 'R180', slug: 'beefy-shaker' },
         12: { name: 'Gym Bag', desc: 'Heavy-duty canvas gym bag with separate shoe compartment. Multiple pockets, BEEFY embroidered.', price: 'R890', slug: 'gym-bag' },
+    };
+
+    // Function to update product data from Printful sync
+    window.updateProductData = function(storeProducts) {
+        if (storeProducts && storeProducts.length > 0) {
+            productData = {};
+            storeProducts.forEach((product, index) => {
+                productData[index + 1] = {
+                    name: product.name,
+                    desc: product.description || 'Premium BEEFY print-on-demand product',
+                    price: 'R' + Math.round(product.price * 18), // Convert USD to ZAR approx
+                    slug: product.id.toString(),
+                    image: product.image,
+                    variants: product.variants
+                };
+            });
+        }
     };
 
     let currentModalProduct = null;

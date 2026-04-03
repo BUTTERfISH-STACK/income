@@ -24,149 +24,30 @@ async function fetchPrintfulProducts() {
     try {
         showToast('Syncing products from Printful...');
 
-        // Bypass API entirely - use actual product data directly
-        const data = {
-            code: 200,
-            result: [
-                {
-                    id: 426686585,
-                    external_id: "69cfdd6b6f4104",
-                    name: "The Master",
-                    variants: 11,
-                    synced: 11,
-                    thumbnail_url: "https://files.cdn.printful.com/files/732/7328c2010bd60f8ea052c4f5930c485e_preview.png",
-                    type: "sweatshirt",
-                    retail_price: "40.50",
-                    sync_variants: [
-                        {
-                            id: 5256243237,
-                            name: "The Master / 2XS",
-                            retail_price: "40.50",
-                            size: "2XS",
-                            color: "White",
-                            files: [{
-                                type: "preview",
-                                preview_url: "https://files.cdn.printful.com/files/732/7328c2010bd60f8ea052c4f5930c485e_preview.png"
-                            }]
-                        },
-                        {
-                            id: 5256243238,
-                            name: "The Master / XS",
-                            retail_price: "40.50",
-                            size: "XS",
-                            color: "White",
-                            files: [{
-                                type: "preview",
-                                preview_url: "https://files.cdn.printful.com/files/732/7328c2010bd60f8ea052c4f5930c485e_preview.png"
-                            }]
-                        },
-                        {
-                            id: 5256243239,
-                            name: "The Master / S",
-                            retail_price: "40.50",
-                            size: "S",
-                            color: "White",
-                            files: [{
-                                type: "preview",
-                                preview_url: "https://files.cdn.printful.com/files/732/7328c2010bd60f8ea052c4f5930c485e_preview.png"
-                            }]
-                        },
-                        {
-                            id: 5256243240,
-                            name: "The Master / M",
-                            retail_price: "40.50",
-                            size: "M",
-                            color: "White",
-                            files: [{
-                                type: "preview",
-                                preview_url: "https://files.cdn.printful.com/files/732/7328c2010bd60f8ea052c4f5930c485e_preview.png"
-                            }]
-                        },
-                        {
-                            id: 5256243241,
-                            name: "The Master / L",
-                            retail_price: "40.50",
-                            size: "L",
-                            color: "White",
-                            files: [{
-                                type: "preview",
-                                preview_url: "https://files.cdn.printful.com/files/732/7328c2010bd60f8ea052c4f5930c485e_preview.png"
-                            }]
-                        },
-                        {
-                            id: 5256243242,
-                            name: "The Master / XL",
-                            retail_price: "40.50",
-                            size: "XL",
-                            color: "White",
-                            files: [{
-                                type: "preview",
-                                preview_url: "https://files.cdn.printful.com/files/732/7328c2010bd60f8ea052c4f5930c485e_preview.png"
-                            }]
-                        },
-                        {
-                            id: 5256243243,
-                            name: "The Master / 2XL",
-                            retail_price: "42.50",
-                            size: "2XL",
-                            color: "White",
-                            files: [{
-                                type: "preview",
-                                preview_url: "https://files.cdn.printful.com/files/732/7328c2010bd60f8ea052c4f5930c485e_preview.png"
-                            }]
-                        },
-                        {
-                            id: 5256243244,
-                            name: "The Master / 3XL",
-                            retail_price: "44.00",
-                            size: "3XL",
-                            color: "White",
-                            files: [{
-                                type: "preview",
-                                preview_url: "https://files.cdn.printful.com/files/732/7328c2010bd60f8ea052c4f5930c485e_preview.png"
-                            }]
-                        },
-                        {
-                            id: 5256243245,
-                            name: "The Master / 4XL",
-                            retail_price: "45.50",
-                            size: "4XL",
-                            color: "White",
-                            files: [{
-                                type: "preview",
-                                preview_url: "https://files.cdn.printful.com/files/732/7328c2010bd60f8ea052c4f5930c485e_preview.png"
-                            }]
-                        },
-                        {
-                            id: 5256243246,
-                            name: "The Master / 5XL",
-                            retail_price: "47.50",
-                            size: "5XL",
-                            color: "White",
-                            files: [{
-                                type: "preview",
-                                preview_url: "https://files.cdn.printful.com/files/732/7328c2010bd60f8ea052c4f5930c485e_preview.png"
-                            }]
-                        },
-                        {
-                            id: 5256243247,
-                            name: "The Master / 6XL",
-                            retail_price: "49.50",
-                            size: "6XL",
-                            color: "White",
-                            files: [{
-                                type: "preview",
-                                preview_url: "https://files.cdn.printful.com/files/732/7328c2010bd60f8ea052c4f5930c485e_preview.png"
-                            }]
-                        }
-                    ]
-                }
-            ]
+        const headers = {
+            'Authorization': `Bearer ${PRINTFUL_CONFIG.apiKey}`,
+            'Accept': 'application/json'
         };
-        
-        showToast('Synced 1 product from Printful');
+
+        if (PRINTFUL_CONFIG.storeId) {
+            headers['X-PF-Store-Id'] = PRINTFUL_CONFIG.storeId;
+        }
+
+        // Official GET /store/products endpoint from OpenAPI spec
+        const response = await fetch(`${PRINTFUL_CONFIG.baseUrl}/store/products`, {
+            method: 'GET',
+            headers: headers
+        });
+
+        if (!response.ok) {
+            throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
         console.log('Printful sync products response:', data);
-        
+
+        showToast(`Found ${data.result.length} products in Printful store`);
+
         // Fetch full details for each product using official GET /store/products/{id}
         const products = [];
         for (const item of data.result) {
@@ -174,8 +55,8 @@ async function fetchPrintfulProducts() {
             if (productDetail) {
                 products.push(productDetail);
             }
-            // Rate limit compliance - 10req/60s limit for product updates
-            await new Promise(resolve => setTimeout(resolve, 100));
+            // Rate limit compliance - 120req/60s limit
+            await new Promise(resolve => setTimeout(resolve, 500));
         }
 
         showToast(`Synced ${products.length} products from Printful`);
@@ -201,7 +82,7 @@ async function fetchPrintfulProductDetails(productId) {
             'Authorization': `Bearer ${PRINTFUL_CONFIG.apiKey}`,
             'Accept': 'application/json'
         };
-        
+
         if (PRINTFUL_CONFIG.storeId) {
             headers['X-PF-Store-Id'] = PRINTFUL_CONFIG.storeId;
         }
@@ -209,8 +90,7 @@ async function fetchPrintfulProductDetails(productId) {
         // Official GET /store/products/{id} endpoint from OpenAPI spec
         const response = await fetch(`${PRINTFUL_CONFIG.baseUrl}/store/products/${productId}`, {
             method: 'GET',
-            headers: headers,
-            mode: 'no-cors'
+            headers: headers
         });
 
         if (!response.ok) {
@@ -277,26 +157,180 @@ function mapPrintfulCategory(printfulType) {
 }
 
 async function syncPrintfulProductsToStore() {
-    const printfulProducts = await fetchPrintfulProducts();
-    
-    if (printfulProducts.length === 0) {
-        return;
+    let printfulProducts = [];
+
+    try {
+        printfulProducts = await fetchPrintfulProducts();
+    } catch (error) {
+        console.error('Printful sync failed, using fallback products:', error);
+        showToast('Using BEEFY products (Printful sync failed)');
     }
 
-    // Convert Printful products to store format
+    // If no Printful products, use fallback static products
+    if (printfulProducts.length === 0) {
+        printfulProducts = [
+            {
+                id: 1,
+                name: 'BEEFY Classic Tee',
+                description: 'Heavyweight 220gsm cotton tee with bold BEEFY logo print. Pre-shrunk, true to size.',
+                price: 25.00,
+                image: 'images/product-tee.jpg',
+                category: 'tops',
+                variants: [
+                    { id: 101, name: 'BEEFY Classic Tee / S', size: 'S', color: 'Black', price: 25.00 },
+                    { id: 102, name: 'BEEFY Classic Tee / M', size: 'M', color: 'Black', price: 25.00 },
+                    { id: 103, name: 'BEEFY Classic Tee / L', size: 'L', color: 'Black', price: 25.00 },
+                    { id: 104, name: 'BEEFY Classic Tee / XL', size: 'XL', color: 'Black', price: 25.00 }
+                ]
+            },
+            {
+                id: 2,
+                name: 'Dundee Beast Tank',
+                description: 'Breathable mesh tank top built for intense workouts. Lightweight, moisture-wicking fabric.',
+                price: 22.00,
+                image: 'images/product-tank.jpg',
+                category: 'tops',
+                variants: [
+                    { id: 201, name: 'Dundee Beast Tank / S', size: 'S', color: 'White', price: 22.00 },
+                    { id: 202, name: 'Dundee Beast Tank / M', size: 'M', color: 'White', price: 22.00 },
+                    { id: 203, name: 'Dundee Beast Tank / L', size: 'L', color: 'White', price: 22.00 }
+                ]
+            },
+            {
+                id: 3,
+                name: 'Power Shorts',
+                description: '4-way stretch shorts with deep pockets. Squat-proof material, elastic waistband.',
+                price: 30.00,
+                image: 'images/product-shorts.jpg',
+                category: 'bottoms',
+                variants: [
+                    { id: 301, name: 'Power Shorts / M', size: 'M', color: 'Black', price: 30.00 },
+                    { id: 302, name: 'Power Shorts / L', size: 'L', color: 'Black', price: 30.00 },
+                    { id: 303, name: 'Power Shorts / XL', size: 'XL', color: 'Black', price: 30.00 }
+                ]
+            },
+            {
+                id: 4,
+                name: 'BEEFY Hoodie',
+                description: 'Premium 350gsm fleece hoodie with embroidered BEEFY logo. Kangaroo pocket.',
+                price: 45.00,
+                image: 'images/product-hoodie.jpg',
+                category: 'tops',
+                variants: [
+                    { id: 401, name: 'BEEFY Hoodie / S', size: 'S', color: 'Black', price: 45.00 },
+                    { id: 402, name: 'BEEFY Hoodie / M', size: 'M', color: 'Black', price: 45.00 },
+                    { id: 403, name: 'BEEFY Hoodie / L', size: 'L', color: 'Black', price: 45.00 },
+                    { id: 404, name: 'BEEFY Hoodie / XL', size: 'XL', color: 'Black', price: 45.00 }
+                ]
+            },
+            {
+                id: 5,
+                name: 'Track Pants',
+                description: 'Tapered fit track pants with zip pockets. Soft brushed interior.',
+                price: 40.00,
+                image: 'images/product-tracks.jpg',
+                category: 'bottoms',
+                variants: [
+                    { id: 501, name: 'Track Pants / M', size: 'M', color: 'Black', price: 40.00 },
+                    { id: 502, name: 'Track Pants / L', size: 'L', color: 'Black', price: 40.00 },
+                    { id: 503, name: 'Track Pants / XL', size: 'XL', color: 'Black', price: 40.00 }
+                ]
+            },
+            {
+                id: 6,
+                name: 'BEEFY Cap',
+                description: 'Structured snapback with flat brim. Embroidered BEEFY logo.',
+                price: 18.00,
+                image: 'images/product-cap.jpg',
+                category: 'accessories',
+                variants: [
+                    { id: 601, name: 'BEEFY Cap / One Size', size: 'One Size', color: 'Black', price: 18.00 }
+                ]
+            },
+            {
+                id: 7,
+                name: 'BEEFY Sports Bra',
+                description: 'High-support sports bra with moisture-wicking fabric. Racerback design.',
+                price: 25.00,
+                image: 'images/product-sportsbra.jpg',
+                category: 'women',
+                variants: [
+                    { id: 701, name: 'BEEFY Sports Bra / S', size: 'S', color: 'Black', price: 25.00 },
+                    { id: 702, name: 'BEEFY Sports Bra / M', size: 'M', color: 'Black', price: 25.00 },
+                    { id: 703, name: 'BEEFY Sports Bra / L', size: 'L', color: 'Black', price: 25.00 }
+                ]
+            },
+            {
+                id: 8,
+                name: 'Flex Leggings',
+                description: 'High-waist sculpting leggings with 4-way stretch. Squat-proof.',
+                price: 35.00,
+                image: 'images/product-leggings.jpg',
+                category: 'bottoms',
+                variants: [
+                    { id: 801, name: 'Flex Leggings / S', size: 'S', color: 'Black', price: 35.00 },
+                    { id: 802, name: 'Flex Leggings / M', size: 'M', color: 'Black', price: 35.00 },
+                    { id: 803, name: 'Flex Leggings / L', size: 'L', color: 'Black', price: 35.00 }
+                ]
+            },
+            {
+                id: 9,
+                name: 'Lifting Gloves',
+                description: 'Genuine leather palm lifting gloves with wrist wraps. Padded grip.',
+                price: 20.00,
+                image: 'images/product-gloves.jpg',
+                category: 'accessories',
+                variants: [
+                    { id: 901, name: 'Lifting Gloves / M', size: 'M', color: 'Black', price: 20.00 },
+                    { id: 902, name: 'Lifting Gloves / L', size: 'L', color: 'Black', price: 20.00 }
+                ]
+            },
+            {
+                id: 10,
+                name: 'BEEFY Stringer',
+                description: 'Competition-cut stringer tank. Deep armholes, lightweight fabric.',
+                price: 22.00,
+                image: 'images/product-stringer.jpg',
+                category: 'tops',
+                variants: [
+                    { id: 1001, name: 'BEEFY Stringer / S', size: 'S', color: 'White', price: 22.00 },
+                    { id: 1002, name: 'BEEFY Stringer / M', size: 'M', color: 'White', price: 22.00 },
+                    { id: 1003, name: 'BEEFY Stringer / L', size: 'L', color: 'White', price: 22.00 }
+                ]
+            },
+            {
+                id: 11,
+                name: 'BEEFY Shaker',
+                description: '750ml BPA-free protein shaker with BEEFY branding. Leak-proof lid.',
+                price: 12.00,
+                image: 'images/product-shaker.jpg',
+                category: 'accessories',
+                variants: [
+                    { id: 1101, name: 'BEEFY Shaker / One Size', size: 'One Size', color: 'Black', price: 12.00 }
+                ]
+            },
+            {
+                id: 12,
+                name: 'Gym Bag',
+                description: 'Heavy-duty canvas gym bag with separate shoe compartment. Multiple pockets.',
+                price: 55.00,
+                image: 'images/product-gymbag.jpg',
+                category: 'accessories',
+                variants: [
+                    { id: 1201, name: 'Gym Bag / One Size', size: 'One Size', color: 'Black', price: 55.00 }
+                ]
+            }
+        ];
+    }
+
+    // Convert products to store format
     const storeProducts = printfulProducts.map(convertPrintfulToStoreProduct);
-    
+
     // Clear existing products
     const productsGrid = document.getElementById('productsGrid');
     productsGrid.innerHTML = '';
-    
-    // Show loading state if no products yet
-    if (printfulProducts.length === 0) {
-        productsGrid.innerHTML = '<p>No products found in Printful account</p>';
-        return;
-    }
 
-    // Add new products from Printful
+    // Add products
     storeProducts.forEach((product, index) => {
         const productCard = createProductCard(product, index + 1);
         productsGrid.appendChild(productCard);
@@ -307,8 +341,13 @@ async function syncPrintfulProductsToStore() {
 
     // Update global product data
     window.STORE_PRODUCTS = storeProducts;
-    
-    showToast(`Successfully synced ${storeProducts.length} products`);
+
+    // Update product data for modal/cart functionality
+    if (window.updateProductData) {
+        window.updateProductData(storeProducts);
+    }
+
+    showToast(`Loaded ${storeProducts.length} products`);
 }
 
 function createProductCard(product, index) {
