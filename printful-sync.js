@@ -246,9 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add sync button to products section
     setTimeout(addPrintfulSyncButton, 1000);
 
-    // Optional: Auto sync on page load if API key is set
+    // Auto sync on page load if API key is set
     if (PRINTFUL_CONFIG.apiKey !== 'YOUR_PRINTFUL_API_KEY') {
-        // Uncomment below to auto-sync on page load
-        // setTimeout(syncPrintfulProductsToStore, 2000);
+        setTimeout(syncPrintfulProductsToStore, 2000);
     }
 });
